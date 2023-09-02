@@ -29,11 +29,10 @@ class Person:
                 last_check_in = event_time
             elif not is_check_in and last_check_in is not None:
                 # checking out, office stay ends now
-                length = last_check_in - event_time
                 self.office_stays.append((last_check_in, event_time - last_check_in))
                 last_check_in = None
             else:
-                raise ValueError(f"Inconsistent checking at {event_time}")
+                raise ValueError(f"Inconsistent checking by {self.name} at {event_time}")
 
     def get_stats_for_month(self, month: int) -> Tuple[str, float, int, float]:
         """
@@ -43,13 +42,14 @@ class Person:
 
         stays_in_month = filter(lambda x: x[0].month == month, self.office_stays)
 
-        stays = []
+        def timedelta_to_hours(td: timedelta) -> float:
+            """Convert timedelta to hours. Microseconds are ignored here."""
+            return td.days * 24 + td.seconds / 3600
 
-        for stay in stays_in_month:
-            stays.append((stay[0].day, stay[1].days * 24 + stay[1].seconds / 3600))
+        stays = [(stay[0].day, timedelta_to_hours(stay[1])) for stay in stays_in_month]
 
         time = sum(stay[1] for stay in stays)
-        days = len(set(stay[0] for stay in stays))
+        days = len(set(stay[0] for stay in stays))  # number of unique days in the month
         average_per_day = time / days
 
         return self.name, time, days, average_per_day

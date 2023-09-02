@@ -48,11 +48,14 @@ def print_stats(stats: List[Tuple[str, float, int, float]], filename: str) -> No
 if __name__ == "__main__":
     input_lines = read_file("../input/datapao_homework_2023.csv")
 
+    # parse persons and events from text file
     persons = parse_persons(input_lines)
 
     print(f"Read {len(persons)} persons")
 
+    # compute statistics for February
     february_stats = [person.get_stats_for_month(2) for person in persons.values()]
     february_stats.sort(key=lambda x: x[3], reverse=True)
 
+    # print February stats to file
     print_stats(february_stats, "../output/first.csv")

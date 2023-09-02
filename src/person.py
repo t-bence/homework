@@ -1,10 +1,10 @@
 from datetime import datetime
 
+
 class Person:
     def __init__(self, name: str) -> None:
         self.name = name
         self.events = []
-
 
     def parse_time(self, timestamp: str) -> datetime:
         """
@@ -14,8 +14,6 @@ class Person:
         # this is basically an ISO format
         # we just need to remove the Z from the end
         return datetime.fromisoformat(timestamp[:-1])
-
-
 
     def add_event(self, user: str, direction: str, event_time: str) -> None:
         """Store a check-in or check-out event"""

@@ -3,7 +3,7 @@ To run tests, use: python -m unittest -v
 """
 
 import unittest
-from src.program import Person
+from src.person import Person
 
 class Tests(unittest.TestCase):
 

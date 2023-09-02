@@ -3,14 +3,20 @@ This is my solution to the homework task.
 It was developed for Python 3.9.1 using the standard library.
 """
 
+from typing import Dict, List
+from person import Person
 
-class Person:
-    def __init__(self) -> None:
-        pass
+def read_file(filename: str) -> str:
+    """ Read text file and return its lines in a list."""
+    with open(filename, "r") as file:
+        return file.readlines()
 
-    def greet(self) -> str:
-        return "Hello"
+
+def parse_persons(input: List[str]) -> Dict[str, Person]:
+    pass
 
 
 if __name__ == "__main__":
-    pass
+    input_lines = read_file("../input/datapao_homework_2023.csv")
+
+    persons = parse_persons(input_lines)

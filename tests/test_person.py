@@ -5,7 +5,7 @@ To run tests, use: python -m unittest -v
 import unittest
 from src.person import Person
 
-class Tests(unittest.TestCase):
+class PersonTests(unittest.TestCase):
 
     def test_person_time_parsing(self):
         person = Person("Bela")

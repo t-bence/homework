@@ -27,8 +27,7 @@ def parse_persons(lines: List[str]) -> Dict[str, Person]:
         if name not in found.keys():
             found[name] = Person(name)
 
-        person = found[name]
-        person.add_event(direction, timestamp)
+        found[name].add_event(direction, timestamp)
 
     return found
 
@@ -39,3 +38,6 @@ if __name__ == "__main__":
     persons = parse_persons(input_lines)
 
     print(f"Read {len(persons)} persons")
+
+    for person in persons.values():
+        person.compute_office_stays()

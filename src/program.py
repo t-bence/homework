@@ -14,14 +14,14 @@ def read_file(filename: str) -> List[str]:
     It is assumed that tha file fits into a string.
     """
     with open(filename, "r") as file:
-        return [line.strip() for line in file.readlines()[1:]]
+        return file.readlines()[1:]
 
 
 def parse_persons(lines: List[str]) -> Dict[str, Person]:
     found = {}
 
     for line in lines:
-        contents = line.split(",")
+        contents = line.strip().split(",")
         name, direction, timestamp = contents
 
         if name not in found.keys():
@@ -37,3 +37,5 @@ if __name__ == "__main__":
     input_lines = read_file("../input/datapao_homework_2023.csv")
 
     persons = parse_persons(input_lines)
+
+    print(f"Read {len(persons)} persons")

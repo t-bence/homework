@@ -33,17 +33,17 @@ class PersonTests(unittest.TestCase):
 
         person.compute_office_stays()
 
-        start, length = person.office_stays[0]
+        stay = person.office_stays[0]
 
-        self.assertEqual(length.total_seconds(), 60*60)
+        self.assertEqual(stay.length_in_hours, 1.0)
 
-        self.assertEqual(start.year, 2023)
-        self.assertEqual(start.month, 1)
-        self.assertEqual(start.day, 31)
-        self.assertEqual(start.hour, 8)
-        self.assertEqual(start.minute, 18)
-        self.assertEqual(start.second, 36)
-        self.assertEqual(start.microsecond, 0)
+        self.assertEqual(stay.check_in.year, 2023)
+        self.assertEqual(stay.check_in.month, 1)
+        self.assertEqual(stay.check_in.day, 31)
+        self.assertEqual(stay.check_in.hour, 8)
+        self.assertEqual(stay.check_in.minute, 18)
+        self.assertEqual(stay.check_in.second, 36)
+        self.assertEqual(stay.check_in.microsecond, 0)
 
     def test_person_stats_in_February(self):
         person = Person("Bela")

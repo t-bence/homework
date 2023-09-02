@@ -3,7 +3,7 @@ This is my solution to the homework task.
 It was developed for Python 3.9.1 using the standard library.
 """
 
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from person import Person
 
 
@@ -32,6 +32,19 @@ def parse_persons(lines: List[str]) -> Dict[str, Person]:
     return found
 
 
+def print_stats(stats: List[Tuple[str, float, int, float]], filename: str) -> None:
+    """Write the solution of the first task to file"""
+    line_end = "\n"
+    lines = ["user_id,time,days,average_per_day,rank" + line_end]  # header
+
+    for rank, data in enumerate(stats):
+        line = ",".join((*map(str, data), str(rank + 1))) + line_end
+        lines.append(line)
+
+    with open(filename, "w") as file:
+        file.writelines(lines)
+
+
 if __name__ == "__main__":
     input_lines = read_file("../input/datapao_homework_2023.csv")
 
@@ -39,5 +52,7 @@ if __name__ == "__main__":
 
     print(f"Read {len(persons)} persons")
 
-    for person in persons.values():
-        person.compute_office_stays()
+    february_stats = [person.get_stats_for_month(2) for person in persons.values()]
+    february_stats.sort(key=lambda x: x[3], reverse=True)
+
+    print_stats(february_stats, "../output/first.csv")

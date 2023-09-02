@@ -35,3 +35,21 @@ class Person:
             else:
                 raise ValueError(f"Inconsistent checking at {event_time}")
 
+    def get_stats_for_month(self, month: int) -> Tuple[str, float, int, float]:
+        """
+        Gets statistics for a person: name, number of hours, days stayed in office in a given month.
+        Plus average hours per day."""
+        self.compute_office_stays()
+
+        stays_in_month = filter(lambda x: x[0].month == month, self.office_stays)
+
+        stays = []
+
+        for stay in stays_in_month:
+            stays.append((stay[0].day, stay[1].days * 24 + stay[1].seconds / 3600))
+
+        time = sum(stay[1] for stay in stays)
+        days = len(set(stay[0] for stay in stays))
+        average_per_day = time / days
+
+        return self.name, time, days, average_per_day

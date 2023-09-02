@@ -45,8 +45,21 @@ class PersonTests(unittest.TestCase):
         self.assertEqual(start.second, 36)
         self.assertEqual(start.microsecond, 0)
 
-    def test_person_stays_in_February(self):
-        pass
+    def test_person_stats_in_February(self):
+        person = Person("Bela")
+
+        person.add_event("GATE_IN", "2023-02-15T08:18:36.000Z")
+        person.add_event("GATE_OUT", "2023-02-15T09:18:36.000Z")
+
+        person.add_event("GATE_IN", "2023-02-16T08:18:36.000Z")
+        person.add_event("GATE_OUT", "2023-02-16T10:18:36.000Z")
+
+        stats = person.get_stats_for_month(2)
+
+        self.assertEqual(stats[0], "Bela")
+        self.assertEqual(stats[1], 3.0)  # number of hours
+        self.assertEqual(stats[2], 2)  # number of days
+        self.assertEqual(stats[3], 1.5)  # avg. hours per day
 
 
 if __name__ == '__main__':

@@ -1,3 +1,7 @@
+"""
+To run tests, use: python -m unittest -v
+"""
+
 import unittest
 from src.program import Person
 

@@ -17,6 +17,6 @@ def parse_persons(input: List[str]) -> Dict[str, Person]:
 
 
 if __name__ == "__main__":
-    input_lines = read_file("../input/datapao_homework_2023.csv")
+    input_lines = read_file("input/datapao_homework_2023.csv")
 
     persons = parse_persons(input_lines)

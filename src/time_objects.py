@@ -1,4 +1,6 @@
+from __future__ import annotations
 from datetime import datetime, timedelta
+from typing import List
 
 
 def timedelta_to_hours(td: timedelta) -> float:
@@ -8,9 +10,6 @@ def timedelta_to_hours(td: timedelta) -> float:
 
 class OfficeStay:
     def __init__(self, check_in: datetime, check_out: datetime) -> None:
-        if check_in.year != check_out.year or check_in.month != check_out.month or check_in.day != check_out.day:
-            raise ValueError(f"OfficeStay starting at {check_in} covers multiple days!")
-
         self.check_in = check_in
         self.check_out = check_out
         self.length_in_hours = timedelta_to_hours(check_out - check_in)
@@ -18,3 +17,9 @@ class OfficeStay:
 
     def is_in_month(self, month: int) -> bool:
         return self.check_in.month == month
+
+    @staticmethod
+    def create(start: datetime, end: datetime) -> List[OfficeStay]:
+        """Create a list of OfficeStay objects from start and end time."""
+
+        return [OfficeStay(start, end)]

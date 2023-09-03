@@ -30,10 +30,21 @@ class Person:
                 last_check_in = event_time
             elif not is_check_in and last_check_in is not None:
                 # checking out, office stay ends now
-                self.office_stays.append(OfficeStay(last_check_in, event_time))
+                self.add_office_stay(last_check_in, event_time)
                 last_check_in = None
             else:
                 raise ValueError(f"Inconsistent checking by {self.name} at {event_time}")
+
+    def add_office_stay(self, start: datetime, end: datetime) -> None:
+        """
+        This function adds an office stay to the Person's list.
+        If the office stay goes over midnight, we might get it in two pieces for the two days.
+        """
+
+        office_stays = OfficeStay.create(start, end)
+
+        for stay in office_stays:
+            self.office_stays.append(stay)
 
     def get_stats_for_month(self, month: int) -> Tuple[str, float, int, float]:
         """

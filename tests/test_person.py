@@ -83,6 +83,28 @@ class PersonTests(unittest.TestCase):
         self.assertEqual(second_stay.day_of_month, 16)
         self.assertEqual(second_stay.length_in_hours, 1.0)
 
+    def test_compute_longest_session(self):
+        person = Person("Bela")
+
+        # add a long session from two parts with <2 hours break:
+        # 20-21.30 and 23-1 at next day, total: 5 hours
+        person.add_office_stay(
+            datetime(2023, 2, 15, 20),
+            datetime(2023, 2, 15, 21, 30))
+        person.add_office_stay(
+            datetime(2023, 2, 15, 23),
+            datetime(2023, 2, 16, 1))
+
+        # and add one session that is shorter than the total: 4 hours
+        person.add_office_stay(
+            datetime(2023, 2, 15, 23),
+            datetime(2023, 2, 16, 1))
+
+        february = 2
+        session = person.compute_longest_session_hours(february)
+
+        self.assertEqual(session, 5)
+
 
 if __name__ == '__main__':
     unittest.main()

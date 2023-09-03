@@ -80,7 +80,7 @@ class PersonTests(unittest.TestCase):
 
         self.assertEqual(first_stay.day_of_month, 15)
         self.assertEqual(first_stay.length_in_hours, 1.0)
-        self.assertEqual(second_stay.day_of_month, 1.0)
+        self.assertEqual(second_stay.day_of_month, 16)
         self.assertEqual(second_stay.length_in_hours, 1.0)
 
 

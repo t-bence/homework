@@ -6,7 +6,7 @@ from time_objects import OfficeStay
 class Person:
     def __init__(self, name: str) -> None:
         self.name = name
-        self.events = []
+        self.events: List[Tuple[bool, datetime]] = []
         self.office_stays: List[OfficeStay] = []
 
     def add_event(self, direction: str, timestamp: str) -> None:
@@ -23,6 +23,9 @@ class Person:
     def compute_office_stays(self) -> None:
         """Compute stays in the office from the events."""
         last_check_in = None  # datetime of last checkin, if checked in currently, else None
+
+        # sort the events for the sake of safety
+        self.events.sort(key=lambda x: x[1])
 
         for is_check_in, event_time in self.events:
             if is_check_in and last_check_in is None:
@@ -49,7 +52,8 @@ class Person:
     def get_stats_for_month(self, month: int) -> Tuple[str, float, int, float]:
         """
         Gets statistics for a person: name, number of hours, days stayed in office in a given month.
-        Plus average hours per day."""
+        Plus average hours per day.
+        """
         self.compute_office_stays()
 
         # consider only those in the selected month

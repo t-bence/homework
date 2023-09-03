@@ -22,4 +22,15 @@ class OfficeStay:
     def create(start: datetime, end: datetime) -> List[OfficeStay]:
         """Create a list of OfficeStay objects from start and end time."""
 
-        return [OfficeStay(start, end)]
+        if start.year == end.year and start.month == end.month and start.day == end.day:
+            return [OfficeStay(start, end)]
+        elif (end - start).days < 1.0:
+            # Separate OfficeStay into two: start day till midnight and next day from midnight
+            # The midnight of the starting day is the starting day's 0:0:00 plus one day.
+            # This takes care of month's end, leap days etc.
+            midnight = datetime(start.year, start.month, start.day, 0, 0, 0, 0) \
+                + timedelta(days=1)
+            return [OfficeStay(start, midnight), OfficeStay(midnight, end)]
+        else:
+            # currently not handled
+            raise ValueError(f"An office stay cannot be longer than one day!")

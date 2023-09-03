@@ -64,3 +64,34 @@ class Person:
         average_per_day = time / days
 
         return self.name, time, days, average_per_day
+
+    def compute_longest_session_hours(self, month: int) -> float:
+        """
+        Compute the length of the longest session in a given month in hours.
+        A session is a stay with <2 hours break(s) in it.
+        Only sessions starting in given month are to be considered.
+        Note: if a session starts in February but ends in March, only its part in
+        February is considered as a February session.
+        """
+
+        # consider only those in the selected month
+        stays = list(filter(lambda st: st.is_in_month(month), self.office_stays))
+
+        # handle edge cases
+        if len(stays) == 0:
+            return 0.0
+        elif len(stays) == 1:
+            return stays[0].length_in_hours
+
+        longest_session: float = 0.0
+        # general case: loop over stays, check if the next one is
+        last_stay = stays[0]
+        current_session = 0.0
+        for stay in stays[1:]:
+            pass
+
+            #if last_stay.break_shorter_than(stay):
+            #    pass
+
+        return longest_session
+

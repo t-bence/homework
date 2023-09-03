@@ -3,6 +3,8 @@ To run tests, use: python -m unittest -v
 """
 
 import unittest
+from datetime import datetime
+
 from src.person import Person
 
 
@@ -60,6 +62,26 @@ class PersonTests(unittest.TestCase):
         self.assertEqual(stats[1], 3.0)  # number of hours
         self.assertEqual(stats[2], 2)  # number of days
         self.assertEqual(stats[3], 1.5)  # avg. hours per day
+
+    def test_work_over_midnight(self):
+        """When someone works overnight, it should be noted and added to separate days."""
+        person = Person("Bela")
+
+        # person works overnight
+        person.add_office_stay(
+            datetime(2023, 2, 15, 23),
+            datetime(2023, 2, 16, 1))
+
+        # assert that two OfficeStays were created!
+        self.assertEqual(len(person.office_stays), 2)
+
+        first_stay = person.office_stays[0]
+        second_stay = person.office_stays[1]
+
+        self.assertEqual(first_stay.day_of_month, 15)
+        self.assertEqual(first_stay.length_in_hours, 1.0)
+        self.assertEqual(second_stay.day_of_month, 1.0)
+        self.assertEqual(second_stay.length_in_hours, 1.0)
 
 
 if __name__ == '__main__':

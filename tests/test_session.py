@@ -10,7 +10,7 @@ class SessionTests(unittest.TestCase):
         sc = SessionCounter(timedelta(hours=1))
 
         stays = [OfficeStay(datetime(2023, 2, 15, 20),
-                           datetime(2023, 2, 15, 21, 30))]
+                            datetime(2023, 2, 15, 21, 30))]
 
         lengths = sc.compute_length_in_hours(stays)
 

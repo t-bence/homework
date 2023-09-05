@@ -1,6 +1,6 @@
 from __future__ import annotations
 from datetime import datetime, timedelta
-from typing import List, Tuple
+from typing import List
 
 
 def timedelta_to_hours(td: timedelta) -> float:
@@ -12,6 +12,7 @@ class OfficeStay:
     """
     This class represents a continuous time period between a check-in and a check-out.
     """
+
     def __init__(self, check_in: datetime, check_out: datetime) -> None:
         self.check_in = check_in
         self.check_out = check_out
@@ -32,7 +33,7 @@ class OfficeStay:
             # The midnight of the starting day is the starting day's 0:0:00 plus one day.
             # This takes care of month's end, leap days etc.
             midnight = datetime(start.year, start.month, start.day, 0, 0, 0, 0) \
-                + timedelta(days=1)
+                       + timedelta(days=1)
             return [OfficeStay(start, midnight), OfficeStay(midnight, end)]
         else:
             # Stays longer than one day may affect three days, this is not currently handled.
@@ -51,12 +52,12 @@ class OfficeStay:
         return length.total_seconds() / 60 / 60
 
 
-
 class SessionCounter:
     """
     This class is responsible for computing session lengths from OfficeStays based on the provided max_break length.
     A session is a bunch of OfficeStays that have < max_break time between.
     """
+
     def __init__(self, max_break: timedelta) -> None:
         # store the maximum break timedelta
         self.max_break = max_break
@@ -93,6 +94,9 @@ class SessionCounter:
                 prev_stay = stay
 
         # close the latest stay
+        # would be unbound if stays[1:] were empty, but then the function
+        # would have returned on line 72
+        # noinspection PyUnboundLocalVariable
         lengths.append(starting_stay.hours_spanned_with(stay))
 
         return lengths

@@ -95,4 +95,3 @@ class Person:
         lengths = session_counter.compute_length_in_hours(feb_stays)
 
         return max(lengths)
-

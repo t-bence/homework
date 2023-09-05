@@ -3,7 +3,7 @@ This is my solution to the homework task.
 It was developed for Python 3.9.1 using the standard library.
 """
 
-from typing import Dict, List, Tuple
+from typing import List, Tuple
 from person import Person
 
 
@@ -47,10 +47,10 @@ def print_stats(stats: List[Tuple[str, float, int, float]]) -> None:
         file.writelines(lines)
 
 
-def print_longest_session(user_id: str, session_length: float) -> None:
+def print_longest_session(name: str, session_length: float) -> None:
     """Write the solution of the second task to file"""
     lines = ["user_id,session_length\n",  # header
-             f"{user_id},{session_length}"]  # content
+             f"{name},{session_length}"]  # content
 
     with open("../output/second.csv", "w") as file:
         file.writelines(lines)
@@ -78,6 +78,6 @@ if __name__ == "__main__":
 
     # sort be decreasing session length
     sessions.sort(key=lambda x: x[1], reverse=True)
-    name, length = sessions[0]
+    user_id, length = sessions[0]
 
-    print_longest_session(name, length)
+    print_longest_session(user_id, length)

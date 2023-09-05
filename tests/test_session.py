@@ -1,7 +1,3 @@
-"""
-To run tests, use: python -m unittest -v
-"""
-
 import unittest
 from datetime import timedelta, datetime
 

@@ -39,7 +39,17 @@ class OfficeStay:
             raise ValueError(f"An office stay cannot be longer than one day!")
 
     def is_followed_within(self, next_stay: OfficeStay, max_break: timedelta) -> bool:
+        """Return if the present OfficeStay is followed by next_stay within max_break"""
         return (next_stay.check_in - self.check_out) < max_break
+
+    def hours_spanned_with(self, final_stay: OfficeStay) -> float:
+        """
+        Return the number of hours in the session starting with the current OfficeStay and
+        ending with final_stay. Here breaks are not accounted for.
+        """
+        length = final_stay.check_out - self.check_in
+        return length.total_seconds() / 60 / 60
+
 
 
 class SessionCounter:
@@ -60,13 +70,13 @@ class SessionCounter:
         if len(stays) == 1:
             return [stays[0].length_in_hours]
 
-        # the time instant when the current session started
-        session_start = stays[0].check_in
+        # the OfficeStay that starts the current session
+        starting_stay = stays[0]
 
         # session lengths are stored here
         lengths: List[float] = []
 
-        # TODO: sort stays!
+        stays.sort(key=lambda s: s.check_in)
         # set the previous stay
         prev_stay = stays[0]
 
@@ -78,8 +88,11 @@ class SessionCounter:
 
             # if not, the session ends, its length is stored and we move on
             else:
-                length = prev_stay.check_out - session_start
-                lengths.append(length.total_seconds() / 60 / 60)  # seconds to hours
+                lengths.append(starting_stay.hours_spanned_with(prev_stay))
+                starting_stay = stay
                 prev_stay = stay
+
+        # close the latest stay
+        lengths.append(starting_stay.hours_spanned_with(stay))
 
         return list(lengths)

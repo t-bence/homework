@@ -37,13 +37,13 @@ class SessionTests(unittest.TestCase):
             # and add one session that is shorter than the total,
             # but longer then each segment separately
             OfficeStay(
-                datetime(2023, 2, 15, 23),
-                datetime(2023, 2, 16, 2))
+                datetime(2023, 2, 16, 23),
+                datetime(2023, 2, 17, 2))
         ]
 
         lengths = sc.compute_length_in_hours(stays)
 
-        self.assertEqual(lengths, [5, 3])
+        self.assertEqual(lengths, [5.0, 3.0])
 
 
 if __name__ == '__main__':

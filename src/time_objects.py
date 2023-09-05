@@ -95,4 +95,4 @@ class SessionCounter:
         # close the latest stay
         lengths.append(starting_stay.hours_spanned_with(stay))
 
-        return list(lengths)
+        return lengths

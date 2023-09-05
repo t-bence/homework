@@ -29,19 +29,30 @@ def parse_persons(lines: List[str]) -> List[Person]:
 
         found[name].add_event(direction, timestamp)
 
-    return found.values()
+    return list(found.values())
 
 
-def print_stats(stats: List[Tuple[str, float, int, float]], filename: str) -> None:
+def print_stats(stats: List[Tuple[str, float, int, float]]) -> None:
     """Write the solution of the first task to file"""
     line_end = "\n"
     lines = ["user_id,time,days,average_per_day,rank" + line_end]  # header
 
     for rank, data in enumerate(stats):
-        line = ",".join((*map(str, data), str(rank + 1))) + line_end
+        data_as_strings = map(str, data)
+        rank_as_str = str(rank + 1)  # start from 1
+        line = ",".join((*data_as_strings, rank_as_str)) + line_end
         lines.append(line)
 
-    with open(filename, "w") as file:
+    with open("../output/first.csv", "w") as file:
+        file.writelines(lines)
+
+
+def print_longest_session(user_id: str, session_length: float) -> None:
+    """Write the solution of the second task to file"""
+    lines = ["user_id,session_length\n",  # header
+             f"{user_id},{session_length}"]  # content
+
+    with open("../output/second.csv", "w") as file:
         file.writelines(lines)
 
 
@@ -51,8 +62,6 @@ if __name__ == "__main__":
     # parse persons and events from text file
     persons = parse_persons(input_lines)
 
-    print(f"Read {len(persons)} persons")
-
     february = 2
 
     # compute statistics for February
@@ -61,12 +70,14 @@ if __name__ == "__main__":
     february_stats.sort(key=lambda x: x[3], reverse=True)
 
     # print February stats to file
-    print_stats(february_stats, "../output/first.csv")
+    print_stats(february_stats)
 
     # compute longest session
     sessions = [(person.name, person.get_longest_session_hours(february))
                 for person in persons]
 
+    # sort be decreasing session length
     sessions.sort(key=lambda x: x[1], reverse=True)
+    name, length = sessions[0]
 
-    print(sessions[0])
+    print_longest_session(name, length)

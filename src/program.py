@@ -17,7 +17,7 @@ def read_file(filename: str) -> List[str]:
         return file.readlines()[1:]
 
 
-def parse_persons(lines: List[str]) -> Dict[str, Person]:
+def parse_persons(lines: List[str]) -> List[Person]:
     found = {}
 
     for line in lines:
@@ -29,7 +29,7 @@ def parse_persons(lines: List[str]) -> Dict[str, Person]:
 
         found[name].add_event(direction, timestamp)
 
-    return found
+    return found.values()
 
 
 def print_stats(stats: List[Tuple[str, float, int, float]], filename: str) -> None:
@@ -56,14 +56,16 @@ if __name__ == "__main__":
     february = 2
 
     # compute statistics for February
-    february_stats = [person.get_stats_for_month(february) for person in persons.values()]
+    february_stats = [person.get_stats_for_month(february)
+                      for person in persons]
     february_stats.sort(key=lambda x: x[3], reverse=True)
 
     # print February stats to file
     print_stats(february_stats, "../output/first.csv")
 
     # compute longest session
-    sessions = [(person.name, person.compute_longest_session_hours(february)) for person in persons.values()]
+    sessions = [(person.name, person.get_longest_session_hours(february))
+                for person in persons]
 
     sessions.sort(key=lambda x: x[1], reverse=True)
 

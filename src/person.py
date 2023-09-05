@@ -75,7 +75,7 @@ class Person:
 
         return self.name, time, days, average_per_day
 
-    def compute_longest_session_hours(self, month: int) -> float:
+    def get_longest_session_hours(self, month: int) -> float:
         """
         Compute the length of the longest session in a given month in hours.
         A session is a stay with <2 hours break(s) in it.

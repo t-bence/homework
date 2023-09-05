@@ -1,7 +1,3 @@
-"""
-To run tests, use: python -m unittest -v
-"""
-
 import unittest
 from datetime import datetime
 
@@ -11,6 +7,7 @@ from src.person import Person
 class PersonTests(unittest.TestCase):
 
     def test_person_time_parsing(self):
+        """Test parsing input line"""
         person = Person("Bela")
 
         person.add_event("GATE_IN", "2023-01-31T08:18:36.000Z")
@@ -28,6 +25,7 @@ class PersonTests(unittest.TestCase):
         self.assertEqual(time.microsecond, 0)
 
     def test_person_office_stay_calculation(self):
+        """Test office stay calculation"""
         person = Person("Bela")
 
         person.add_event("GATE_IN", "2023-01-31T08:18:36.000Z")
@@ -48,6 +46,7 @@ class PersonTests(unittest.TestCase):
         self.assertEqual(stay.check_in.microsecond, 0)
 
     def test_person_stats_in_February(self):
+        """Test statistic calculation for a given month"""
         person = Person("Bela")
 
         person.add_event("GATE_IN", "2023-02-15T08:18:36.000Z")
@@ -55,6 +54,9 @@ class PersonTests(unittest.TestCase):
 
         person.add_event("GATE_IN", "2023-02-16T08:18:36.000Z")
         person.add_event("GATE_OUT", "2023-02-16T10:18:36.000Z")
+
+        person.add_event("GATE_IN", "2023-03-16T08:18:36.000Z")
+        person.add_event("GATE_OUT", "2023-03-16T10:18:36.000Z")
 
         stats = person.get_stats_for_month(2)
 

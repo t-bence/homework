@@ -83,18 +83,21 @@ class SessionCounter:
 
         # loop along the stays beginning from the second
         for stay in stays[1:]:
-            # if stay follows prev_stay within max_break
+            # if stay follows prev_stay by less than max_break,
+            # it counts as one session
             if prev_stay.is_followed_within(stay, self.max_break):
+                # then just move along
                 prev_stay = stay
 
-            # if not, the session ends, its length is stored and we move on
+            # if stay follows prev_stay by more than max_break, the session
+            # ends, its length is stored and we move on
             else:
                 lengths.append(starting_stay.hours_spanned_with(prev_stay))
                 starting_stay = stay
                 prev_stay = stay
 
-        # close the latest stay
-        # would be unbound if stays[1:] were empty, but then the function
+        # close the latest session
+        # stay would be unbound if stays[1:] were empty, but then the function
         # would have returned on line 72
         # noinspection PyUnboundLocalVariable
         lengths.append(starting_stay.hours_spanned_with(stay))

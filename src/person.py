@@ -57,6 +57,7 @@ class Person:
             self.office_stays.append(stay)
 
     def get_stays_in_month(self, month: int) -> List[OfficeStay]:
+        """Return only the stays which are in specified month"""
         return list(filter(lambda stay: stay.is_in_month(month), self.office_stays))
 
     def get_stats_for_month(self, month: int) -> Tuple[str, float, int, float]:

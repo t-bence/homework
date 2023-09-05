@@ -5,6 +5,7 @@ from src.program import parse_persons
 class MainTests(unittest.TestCase):
 
     def test_person_parsing(self):
+        """Test that person parsing works, name, direction and date is captured"""
         row = ["2e5d8815-4e59-4302-99c0-6fc9593a2eef,GATE_IN,2023-01-31T08:18:36.000Z"]
         name = "2e5d8815-4e59-4302-99c0-6fc9593a2eef"
 

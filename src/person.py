@@ -1,6 +1,6 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import List, Tuple
-from time_objects import OfficeStay
+from time_objects import OfficeStay, SessionCounter
 
 
 class Person:
@@ -21,20 +21,27 @@ class Person:
         self.events.append((is_check_in, event_time))
 
     def compute_office_stays(self) -> None:
-        """Compute stays in the office from the events."""
+        """
+        Compute stays in the office from the events.
+        Uses a small state machine to keep track of people in and out, to make sure we notice errors.
+        """
         last_check_in = None  # datetime of last checkin, if checked in currently, else None
 
         # sort the events for the sake of safety
         self.events.sort(key=lambda x: x[1])
 
         for is_check_in, event_time in self.events:
+            # if last check-in time is None, person is not checked in
             if is_check_in and last_check_in is None:
-                # checking in
                 last_check_in = event_time
+
+            # if last check-in time is not None, user is checked in
             elif not is_check_in and last_check_in is not None:
                 # checking out, office stay ends now
                 self.add_office_stay(last_check_in, event_time)
                 last_check_in = None
+
+            # every other case must be an error
             else:
                 raise ValueError(f"Inconsistent checking by {self.name} at {event_time}")
 
@@ -49,6 +56,9 @@ class Person:
         for stay in office_stays:
             self.office_stays.append(stay)
 
+    def get_stays_in_month(self, month: int) -> List[OfficeStay]:
+        return list(filter(lambda stay: stay.is_in_month(month), self.office_stays))
+
     def get_stats_for_month(self, month: int) -> Tuple[str, float, int, float]:
         """
         Gets statistics for a person: name, number of hours, days stayed in office in a given month.
@@ -57,7 +67,7 @@ class Person:
         self.compute_office_stays()
 
         # consider only those in the selected month
-        stays = list(filter(lambda stay: stay.is_in_month(month), self.office_stays))
+        stays = self.get_stays_in_month(month)
 
         time = sum(stay.length_in_hours for stay in stays)
         days = len(set(stay.day_of_month for stay in stays))  # number of unique days in the month
@@ -75,23 +85,14 @@ class Person:
         """
 
         # consider only those in the selected month
-        stays = list(filter(lambda st: st.is_in_month(month), self.office_stays))
+        feb_stays = self.get_stays_in_month(month)
 
-        # handle edge cases
-        if len(stays) == 0:
-            return 0.0
-        elif len(stays) == 1:
-            return stays[0].length_in_hours
+        # the limit is two hours
+        two_hours = timedelta(hours=2)
 
-        longest_session: float = 0.0
-        # general case: loop over stays, check if the next one is
-        last_stay = stays[0]
-        current_session = 0.0
-        for stay in stays[1:]:
-            pass
+        session_counter = SessionCounter(two_hours)
 
-            #if last_stay.break_shorter_than(stay):
-            #    pass
+        lengths = session_counter.compute_length_in_hours(feb_stays)
 
-        return longest_session
+        return max(lengths)
 

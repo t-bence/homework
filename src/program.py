@@ -53,9 +53,18 @@ if __name__ == "__main__":
 
     print(f"Read {len(persons)} persons")
 
+    february = 2
+
     # compute statistics for February
-    february_stats = [person.get_stats_for_month(2) for person in persons.values()]
+    february_stats = [person.get_stats_for_month(february) for person in persons.values()]
     february_stats.sort(key=lambda x: x[3], reverse=True)
 
     # print February stats to file
     print_stats(february_stats, "../output/first.csv")
+
+    # compute longest session
+    sessions = [(person.name, person.compute_longest_session_hours(february)) for person in persons.values()]
+
+    sessions.sort(key=lambda x: x[1], reverse=True)
+
+    print(sessions[0])

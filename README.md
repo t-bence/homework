@@ -33,3 +33,12 @@ on a Windows machine (but that should not matter).
 
 From the same place, the external homework folder:
 `python -m unittest -v`
+
+## Extra task
+
+My idea was to check if lunch breaks are longer on average than other breaks. 
+A lunch break is a break that includes noon of the given day. 
+The program computes average lunch break and non-lunch break lengths for all
+people and writes the results to the terminal.
+The difference is quite large: 3.91 hours for a lunch break and 1.65 hours for
+other breaks!

@@ -85,6 +85,31 @@ class PersonTests(unittest.TestCase):
         self.assertEqual(second_stay.day_of_month, 16)
         self.assertAlmostEqual(second_stay.length_in_hours, 1.0)
 
+    def test_break_length_computation(self):
+        """Test the computation of break lengths"""
+        person = Person("Bela")
+
+        person.add_event("GATE_IN", "2023-02-15T08:00:00.000Z")
+        person.add_event("GATE_OUT", "2023-02-15T09:00:00.000Z")
+
+        person.add_event("GATE_IN", "2023-02-15T10:00:00.000Z")
+        person.add_event("GATE_OUT", "2023-02-15T11:00:00.000Z")
+
+        person.add_event("GATE_IN", "2023-03-15T14:00:00.000Z")
+        person.add_event("GATE_OUT", "2023-03-15T18:00:00.000Z")
+
+        person.add_event("GATE_IN", "2023-03-15T19:00:00.000Z")
+        person.add_event("GATE_OUT", "2023-03-15T20:00:00.000Z")
+
+        lunch_breaks, non_lunch_breaks = person.get_break_lengths()
+
+        self.assertEqual(len(lunch_breaks), 1)
+        self.assertAlmostEqual(lunch_breaks[0], 3.0)  # between 11-14
+
+        self.assertEqual(len(non_lunch_breaks), 2)
+        self.assertAlmostEqual(non_lunch_breaks[0], 1.0)  # between 9-10
+        self.assertAlmostEqual(non_lunch_breaks[1], 1.0)  # between 18-19
+
 
 if __name__ == '__main__':
     unittest.main()

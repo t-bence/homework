@@ -121,7 +121,9 @@ class Person:
         for stay in self.office_stays[1:]:
             # if on same day, it is a break
             if first_stay.is_on_same_day(stay):
+                # generate noon
                 noon = first_stay.check_in.replace(hour=12, minute=0, second=0, microsecond=0)
+                # check if break includes noon
                 if first_stay.check_out < noon < stay.check_in:
                     lunch_breaks.append(
                         timedelta_to_hours(stay.check_in - first_stay.check_out)

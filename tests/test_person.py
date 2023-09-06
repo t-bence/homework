@@ -110,6 +110,34 @@ class PersonTests(unittest.TestCase):
         self.assertAlmostEqual(non_lunch_breaks[0], 1.0)  # between 9-10
         self.assertAlmostEqual(non_lunch_breaks[1], 1.0)  # between 18-19
 
+    def test_break_length_computation_ignore_other_days(self):
+        """Test the computation of break lengths: check if other days are ignored"""
+        person = Person("Bela")
+
+        person.add_event("GATE_IN", "2023-02-15T08:00:00.000Z")
+        person.add_event("GATE_OUT", "2023-02-15T09:00:00.000Z")
+
+        person.add_event("GATE_IN", "2023-02-15T10:00:00.000Z")
+        person.add_event("GATE_OUT", "2023-02-15T11:00:00.000Z")
+
+        person.add_event("GATE_IN", "2023-02-15T14:00:00.000Z")
+        person.add_event("GATE_OUT", "2023-02-15T18:00:00.000Z")
+
+        person.add_event("GATE_IN", "2023-02-15T19:00:00.000Z")
+        person.add_event("GATE_OUT", "2023-02-15T20:00:00.000Z")
+
+        person.add_event("GATE_IN", "2023-02-16T00:00:00.000Z")
+        person.add_event("GATE_OUT", "2023-02-16T01:00:00.000Z")
+
+        lunch_breaks, non_lunch_breaks = person.get_break_lengths()
+
+        self.assertEqual(len(lunch_breaks), 1)
+        self.assertAlmostEqual(lunch_breaks[0], 3.0)  # between 11-14
+
+        self.assertEqual(len(non_lunch_breaks), 2)
+        self.assertAlmostEqual(non_lunch_breaks[0], 1.0)  # between 9-10
+        self.assertAlmostEqual(non_lunch_breaks[1], 1.0)  # between 18-19
+
 
 if __name__ == '__main__':
     unittest.main()

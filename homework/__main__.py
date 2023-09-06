@@ -3,7 +3,7 @@ This is my solution to the homework task.
 It was developed for Python 3.9.1 using the standard library.
 """
 
-from typing import List
+from typing import List, Tuple
 from homework.person import Person, Stat
 
 
@@ -55,7 +55,23 @@ def print_longest_session(name: str, session_length: float) -> None:
         file.writelines(lines)
 
 
+def compute_break_lengths(persons: List[Person]) -> Tuple[float, float]:
+    """Compute average lunch break and non-lunch break lengths"""
+    lunch_breaks: List[float] = []
+    non_lunch_breaks: List[float] = []
+    for p in persons:
+        lb, nlb = p.get_break_lengths()
+        lunch_breaks += lb
+        non_lunch_breaks += nlb
+
+    def avg(lst: List[float]) -> float:
+        return sum(lst) / len(lst)
+
+    return avg(lunch_breaks), avg(non_lunch_breaks)
+
+
 def main() -> None:
+    # noinspection SpellCheckingInspection
     input_lines = read_file("input/datapao_homework_2023.csv")
 
     # parse persons and events from text file
@@ -82,7 +98,13 @@ def main() -> None:
     sessions.sort(key=lambda x: x[1], reverse=True)
     user_id, length = sessions[0]
 
+    # write second solution to file
     print_longest_session(user_id, length)
+
+    # my idea: compute lunch break and non-lunch break lengths
+    lunch_breaks, non_lunch_breaks = compute_break_lengths(persons)
+    print(f"Average lunch break length: {lunch_breaks:.2f} hours")
+    print(f"Average non-lunch break length: {non_lunch_breaks:.2f} hours")
 
     print("Done.")
 

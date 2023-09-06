@@ -1,13 +1,13 @@
 # homework
-This is my solution of the homework.
+Hi, my name is Bence. This is my solution of the homework.
 
-I have made some assumptions: 
+During the solution, I have made some assumptions: 
 1. I assumed that if someone enters the office on
 Monday at 23:00 and leaves on Tuesday at 1:00
-(morning), then it counts as one hour on Monday
+(at night), then it counts as one hour on Monday
 and one hour on Tuesday.
-2. I have assumed that from entering to leaving, 
-cannot pass more time than a day. This is important,
+2. I have assumed that between entering and leaving, 
+cannot be more time than a day. This is important,
 otherwise we could have stays reaching to 3 days.
 This is checked and a ValueError is thrown if the
 assumption is violated.

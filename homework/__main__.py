@@ -3,8 +3,8 @@ This is my solution to the homework task.
 It was developed for Python 3.9.1 using the standard library.
 """
 
-from typing import List, Tuple
-from homework.person import Person
+from typing import List
+from homework.person import Person, Stat
 
 
 def read_file(filename: str) -> List[str]:
@@ -32,15 +32,14 @@ def parse_persons(lines: List[str]) -> List[Person]:
     return list(found.values())
 
 
-def print_stats(stats: List[Tuple[str, float, int, float]]) -> None:
+def print_stats(stats: List[Stat]) -> None:
     """Write the solution of the first task to file"""
     line_end = "\n"
     lines = ["user_id,time,days,average_per_day,rank" + line_end]  # header
 
     for rank, data in enumerate(stats):
-        data_as_strings = map(str, data)
         rank_as_str = str(rank + 1)  # start from 1
-        line = ",".join((*data_as_strings, rank_as_str)) + line_end
+        line = str(data) + "," + rank_as_str + line_end
         lines.append(line)
 
     with open("output/first.csv", "w") as file:
@@ -70,7 +69,7 @@ def main() -> None:
     february_stats = [person.get_stats_for_month(february)
                       for person in persons]
     # sort by decreasing avg hours per day
-    february_stats.sort(key=lambda x: x[3], reverse=True)
+    february_stats.sort(key=lambda s: s.avg_time_per_days, reverse=True)
 
     # print February stats to file
     print_stats(february_stats)

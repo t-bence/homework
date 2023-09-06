@@ -58,12 +58,12 @@ class PersonTests(unittest.TestCase):
         person.add_event("GATE_IN", "2023-03-16T08:18:36.000Z")
         person.add_event("GATE_OUT", "2023-03-16T10:18:36.000Z")
 
-        stats = person.get_stats_for_month(2)
+        stat = person.get_stats_for_month(2)
 
-        self.assertEqual(stats[0], "Bela")
-        self.assertAlmostEqual(stats[1], 3.0)  # number of hours
-        self.assertEqual(stats[2], 2)  # number of days
-        self.assertAlmostEqual(stats[3], 1.5)  # avg. hours per day
+        self.assertEqual(stat.name, "Bela")
+        self.assertAlmostEqual(stat.time, 3.0)  # number of hours
+        self.assertEqual(stat.days, 2)  # number of days
+        self.assertAlmostEqual(stat.avg_time_per_days, 1.5)  # avg. hours per day
 
     def test_work_over_midnight(self):
         """When someone works overnight, it should be noted and added to separate days."""

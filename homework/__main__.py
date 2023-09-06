@@ -5,9 +5,6 @@ It was developed for Python 3.9.1 using the standard library.
 
 from typing import List, Tuple
 from homework.person import Person
-import sys
-
-# sys.path.append("homework")
 
 
 def read_file(filename: str) -> List[str]:
@@ -72,6 +69,7 @@ def main() -> None:
     # compute statistics for February
     february_stats = [person.get_stats_for_month(february)
                       for person in persons]
+    # sort by decreasing avg hours per day
     february_stats.sort(key=lambda x: x[3], reverse=True)
 
     # print February stats to file
@@ -81,7 +79,7 @@ def main() -> None:
     sessions = [(person.name, person.get_longest_session_hours(february))
                 for person in persons]
 
-    # sort be decreasing session length
+    # sort by decreasing session length
     sessions.sort(key=lambda x: x[1], reverse=True)
     user_id, length = sessions[0]
 

@@ -1,6 +1,0 @@
-{
-    "python.pythonPath": "C:\\Users\\tthbn\\AppData\\Local\\Programs\\Python\\Python39\\python.exe",
-    "python.analysis.extraPaths": [
-        "./src"
-    ]
-}

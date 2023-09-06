@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from typing import List, Tuple
-from .time_objects import OfficeStay, SessionCounter
+from .time_objects import OfficeStay, SessionCounter, timedelta_to_hours
 
 
 class Stat:
@@ -106,3 +106,33 @@ class Person:
         lengths = session_counter.compute_length_in_hours(feb_stays)
 
         return max(lengths)
+
+    def get_break_lengths(self) -> Tuple[List[float], List[float]]:
+        """Return the length of lunch breaks and non lunch breaks respectively, in hours."""
+        lunch_breaks: List[float] = []
+        non_lunch_breaks: List[float] = []
+
+        self.compute_office_stays()
+
+        if len(self.office_stays) < 2:
+            return [], []
+
+        # store the OfficeStay after which the break starts
+        prev_stay = self.office_stays[0]
+        # loop along, the next OfficeStay is that ends the break
+        for stay in self.office_stays[1:]:
+            # if on same day, it is a break
+            if prev_stay.is_on_same_day(stay):
+                # generate noon
+                noon = prev_stay.check_in.replace(hour=12, minute=0, second=0, microsecond=0)
+                # check if break includes noon
+                if prev_stay.check_out < noon < stay.check_in:
+                    lunch_breaks.append(
+                        timedelta_to_hours(stay.check_in - prev_stay.check_out)
+                    )
+                else:
+                    non_lunch_breaks.append(
+                        timedelta_to_hours(stay.check_in - prev_stay.check_out)
+                    )
+            prev_stay = stay
+        return lunch_breaks, non_lunch_breaks

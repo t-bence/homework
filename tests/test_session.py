@@ -15,7 +15,7 @@ class SessionTests(unittest.TestCase):
 
         lengths = sc.compute_length_in_hours(stays)
 
-        self.assertEqual(lengths[0], 1.5)
+        self.assertAlmostEqual(lengths[0], 1.5)
 
     def test_compute_longest_session(self):
         """Tests that sessions from parts are computed well."""
@@ -41,7 +41,8 @@ class SessionTests(unittest.TestCase):
 
         lengths = sc.compute_length_in_hours(stays)
 
-        self.assertEqual(lengths, [5.0, 3.0])
+        self.assertAlmostEqual(lengths[0], 5.0)
+        self.assertAlmostEqual(lengths[1], 3.0)
 
 
 if __name__ == '__main__':

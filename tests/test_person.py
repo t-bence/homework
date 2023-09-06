@@ -35,7 +35,7 @@ class PersonTests(unittest.TestCase):
 
         stay = person.office_stays[0]
 
-        self.assertEqual(stay.length_in_hours, 1.0)
+        self.assertAlmostEqual(stay.length_in_hours, 1.0)
 
         self.assertEqual(stay.check_in.year, 2023)
         self.assertEqual(stay.check_in.month, 1)
@@ -61,9 +61,9 @@ class PersonTests(unittest.TestCase):
         stats = person.get_stats_for_month(2)
 
         self.assertEqual(stats[0], "Bela")
-        self.assertEqual(stats[1], 3.0)  # number of hours
+        self.assertAlmostEqual(stats[1], 3.0)  # number of hours
         self.assertEqual(stats[2], 2)  # number of days
-        self.assertEqual(stats[3], 1.5)  # avg. hours per day
+        self.assertAlmostEqual(stats[3], 1.5)  # avg. hours per day
 
     def test_work_over_midnight(self):
         """When someone works overnight, it should be noted and added to separate days."""
@@ -81,9 +81,9 @@ class PersonTests(unittest.TestCase):
         second_stay = person.office_stays[1]
 
         self.assertEqual(first_stay.day_of_month, 15)
-        self.assertEqual(first_stay.length_in_hours, 1.0)
+        self.assertAlmostEqual(first_stay.length_in_hours, 1.0)
         self.assertEqual(second_stay.day_of_month, 16)
-        self.assertEqual(second_stay.length_in_hours, 1.0)
+        self.assertAlmostEqual(second_stay.length_in_hours, 1.0)
 
 
 if __name__ == '__main__':

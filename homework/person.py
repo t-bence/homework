@@ -3,6 +3,18 @@ from typing import List, Tuple
 from .time_objects import OfficeStay, SessionCounter
 
 
+class Stat:
+    """Represents the work statistics of a Person"""
+    def __init__(self, name: str, time: float, days: int):
+        self.name = name
+        self.time = time
+        self.days = days
+        self.avg_time_per_days = time / days
+
+    def __str__(self) -> str:
+        return f"{self.name},{self.time},{self.days},{self.avg_time_per_days}"
+
+
 class Person:
     def __init__(self, name: str) -> None:
         self.name = name
@@ -60,10 +72,9 @@ class Person:
         """Return only the stays which are in specified month"""
         return list(filter(lambda stay: stay.is_in_month(month), self.office_stays))
 
-    def get_stats_for_month(self, month: int) -> Tuple[str, float, int, float]:
+    def get_stats_for_month(self, month: int) -> Stat:
         """
         Gets statistics for a person: name, number of hours, days stayed in office in a given month.
-        Plus average hours per day.
         """
         self.compute_office_stays()
 
@@ -72,9 +83,8 @@ class Person:
 
         time = sum(stay.length_in_hours for stay in stays)
         days = len(set(stay.day_of_month for stay in stays))  # number of unique days in the month
-        average_per_day = time / days
 
-        return self.name, time, days, average_per_day
+        return Stat(self.name, time, days)
 
     def get_longest_session_hours(self, month: int) -> float:
         """

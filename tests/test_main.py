@@ -1,5 +1,5 @@
 import unittest
-from src.program import parse_persons
+from homework.__main__ import parse_persons
 
 
 class MainTests(unittest.TestCase):

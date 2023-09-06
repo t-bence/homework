@@ -1,7 +1,7 @@
 import unittest
 from datetime import timedelta, datetime
 
-from src.time_objects import OfficeStay, SessionCounter
+from homework.time_objects import OfficeStay, SessionCounter
 
 
 class SessionTests(unittest.TestCase):

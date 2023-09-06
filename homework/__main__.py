@@ -4,7 +4,10 @@ It was developed for Python 3.9.1 using the standard library.
 """
 
 from typing import List, Tuple
-from person import Person
+from homework.person import Person
+import sys
+
+# sys.path.append("homework")
 
 
 def read_file(filename: str) -> List[str]:
@@ -43,24 +46,26 @@ def print_stats(stats: List[Tuple[str, float, int, float]]) -> None:
         line = ",".join((*data_as_strings, rank_as_str)) + line_end
         lines.append(line)
 
-    with open("../output/first.csv", "w") as file:
+    with open("output/first.csv", "w") as file:
         file.writelines(lines)
 
 
 def print_longest_session(name: str, session_length: float) -> None:
     """Write the solution of the second task to file"""
     lines = ["user_id,session_length\n",  # header
-             f"{name},{session_length}"]  # content
+             f"{name},{session_length}\n"]  # content
 
-    with open("../output/second.csv", "w") as file:
+    with open("output/second.csv", "w") as file:
         file.writelines(lines)
 
 
-if __name__ == "__main__":
-    input_lines = read_file("../input/datapao_homework_2023.csv")
+def main() -> None:
+    input_lines = read_file("input/datapao_homework_2023.csv")
 
     # parse persons and events from text file
     persons = parse_persons(input_lines)
+
+    print(f"Processing {len(persons)} persons")
 
     february = 2
 
@@ -81,3 +86,8 @@ if __name__ == "__main__":
     user_id, length = sessions[0]
 
     print_longest_session(user_id, length)
+
+    print("Done.")
+
+
+main()

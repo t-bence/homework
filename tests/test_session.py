@@ -1,12 +1,13 @@
 import unittest
 from datetime import timedelta, datetime
 
-from src.time_objects import OfficeStay, SessionCounter
+from homework.time_objects import OfficeStay, SessionCounter
 
 
 class SessionTests(unittest.TestCase):
 
     def test_session_simplest(self):
+        """Tests that a simple session length is computed well."""
         sc = SessionCounter(timedelta(hours=1))
 
         stays = [OfficeStay(datetime(2023, 2, 15, 20),
@@ -17,6 +18,7 @@ class SessionTests(unittest.TestCase):
         self.assertEqual(lengths[0], 1.5)
 
     def test_compute_longest_session(self):
+        """Tests that sessions from parts are computed well."""
         # create a counter with 2 hours of max break
         sc = SessionCounter(timedelta(hours=2))
 

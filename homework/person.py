@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from typing import List, Tuple
-from time_objects import OfficeStay, SessionCounter
+from .time_objects import OfficeStay, SessionCounter
 
 
 class Person:

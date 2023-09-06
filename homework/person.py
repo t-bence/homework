@@ -117,20 +117,22 @@ class Person:
         if len(self.office_stays) < 2:
             return [], []
 
-        first_stay = self.office_stays[0]
+        # store the OfficeStay after which the break starts
+        prev_stay = self.office_stays[0]
+        # loop along, the next OfficeStay is that ends the break
         for stay in self.office_stays[1:]:
             # if on same day, it is a break
-            if first_stay.is_on_same_day(stay):
+            if prev_stay.is_on_same_day(stay):
                 # generate noon
-                noon = first_stay.check_in.replace(hour=12, minute=0, second=0, microsecond=0)
+                noon = prev_stay.check_in.replace(hour=12, minute=0, second=0, microsecond=0)
                 # check if break includes noon
-                if first_stay.check_out < noon < stay.check_in:
+                if prev_stay.check_out < noon < stay.check_in:
                     lunch_breaks.append(
-                        timedelta_to_hours(stay.check_in - first_stay.check_out)
+                        timedelta_to_hours(stay.check_in - prev_stay.check_out)
                     )
                 else:
                     non_lunch_breaks.append(
-                        timedelta_to_hours(stay.check_in - first_stay.check_out)
+                        timedelta_to_hours(stay.check_in - prev_stay.check_out)
                     )
-            first_stay = stay
+            prev_stay = stay
         return lunch_breaks, non_lunch_breaks

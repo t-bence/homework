@@ -51,6 +51,11 @@ class OfficeStay:
         length = final_stay.check_out - self.check_in
         return length.total_seconds() / 60 / 60
 
+    def is_on_same_day(self, stay: OfficeStay):
+        return self.check_in.year == stay.check_in.year and  \
+               self.check_in.month == stay.check_in.month and  \
+               self.check_in.day == stay.check_in.day
+
 
 class SessionCounter:
     """

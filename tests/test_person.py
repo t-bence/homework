@@ -95,11 +95,11 @@ class PersonTests(unittest.TestCase):
         person.add_event("GATE_IN", "2023-02-15T10:00:00.000Z")
         person.add_event("GATE_OUT", "2023-02-15T11:00:00.000Z")
 
-        person.add_event("GATE_IN", "2023-03-15T14:00:00.000Z")
-        person.add_event("GATE_OUT", "2023-03-15T18:00:00.000Z")
+        person.add_event("GATE_IN", "2023-02-15T14:00:00.000Z")
+        person.add_event("GATE_OUT", "2023-02-15T18:00:00.000Z")
 
-        person.add_event("GATE_IN", "2023-03-15T19:00:00.000Z")
-        person.add_event("GATE_OUT", "2023-03-15T20:00:00.000Z")
+        person.add_event("GATE_IN", "2023-02-15T19:00:00.000Z")
+        person.add_event("GATE_OUT", "2023-02-15T20:00:00.000Z")
 
         lunch_breaks, non_lunch_breaks = person.get_break_lengths()
 

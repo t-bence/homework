@@ -16,6 +16,9 @@ as in the example, so I can read them into memory as
 strings. If the files were bigger, I would read and
 write them line by line.
 
+Thanks for the assignment, I really enjoyed it and learned
+some new things as well!
+
 ## Run the program
 
 The program should be ran on **Python 3.9**.

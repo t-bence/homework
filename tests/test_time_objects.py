@@ -51,6 +51,11 @@ class SessionTests(unittest.TestCase):
 
         self.assertRaises(ValueError, OfficeStay.create, start, end)
 
+    def test_sessioncounter_no_event_raises(self):
+        """Tests that a ValueError is raised when no OfficeStay is given to SessionCounter"""
+        sc = SessionCounter(timedelta(hours=2.0))
+        self.assertRaises(ValueError, sc.compute_length_in_hours, [])
+
 
 if __name__ == '__main__':
     unittest.main()

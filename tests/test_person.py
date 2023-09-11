@@ -24,6 +24,20 @@ class PersonTests(unittest.TestCase):
         self.assertEqual(time.second, 36)
         self.assertEqual(time.microsecond, 0)
 
+    def test_inconsistent_checking_raises_twice_in(self):
+        """Tests that a ValueError is raised when someone checks in twice without checking out"""
+        person = Person("Bela")
+        person.add_event("GATE_IN", "2023-01-31T08:18:36.000Z")
+        person.add_event("GATE_IN", "2023-01-31T09:18:36.000Z")
+        self.assertRaises(ValueError, person.compute_office_stays)
+
+    def test_inconsistent_checking_raises_twice_out(self):
+        """Tests that a ValueError is raised when someone checks in twice without checking in"""
+        person = Person("Bela")
+        person.add_event("GATE_OUT", "2023-01-31T08:18:36.000Z")
+        person.add_event("GATE_OUT", "2023-01-31T09:18:36.000Z")
+        self.assertRaises(ValueError, person.compute_office_stays)
+
     def test_person_office_stay_calculation(self):
         """Test office stay calculation"""
         person = Person("Bela")

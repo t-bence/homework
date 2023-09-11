@@ -44,6 +44,18 @@ class SessionTests(unittest.TestCase):
         self.assertAlmostEqual(lengths[0], 5.0)
         self.assertAlmostEqual(lengths[1], 3.0)
 
+    def test_too_long_officestay_raises(self):
+        """Tests that a ValueError is raised when an OfficeStay is longer than one day"""
+        start = datetime(2023, 2, 15, 20, 0)
+        end = datetime(2023, 2, 16, 21, 30)
+
+        self.assertRaises(ValueError, OfficeStay.create, start, end)
+
+    def test_sessioncounter_no_event_raises(self):
+        """Tests that a ValueError is raised when no OfficeStay is given to SessionCounter"""
+        sc = SessionCounter(timedelta(hours=2.0))
+        self.assertRaises(ValueError, sc.compute_length_in_hours, [])
+
 
 if __name__ == '__main__':
     unittest.main()
